@@ -1,0 +1,76 @@
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "com.dicoding.aplikasi_github_user_2"
+        minSdk rootProject.ext.defaultConfig.minSdk
+        targetSdk rootProject.ext.defaultConfig.targetSdk
+        versionCode rootProject.ext.defaultConfig.versionCode
+        versionName rootProject.ext.defaultConfig.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    kotlin {
+        experimental {
+            coroutines "enable"
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+
+    viewBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
+    implementation rootProject.ext.implementDependencies.coreKtx
+    implementation rootProject.ext.implementDependencies.viewModelKtx
+    implementation rootProject.ext.implementDependencies.liveDataKtx
+    implementation rootProject.ext.implementDependencies.lifeCycleExtension
+    implementation rootProject.ext.implementDependencies.appCompact
+    implementation rootProject.ext.implementDependencies.material
+    implementation rootProject.ext.implementDependencies.constraintlayout
+    implementation rootProject.ext.implementDependencies.retrofit
+    implementation rootProject.ext.implementDependencies.gson
+    implementation rootProject.ext.implementDependencies.loggingInterceptor
+    implementation rootProject.ext.implementDependencies.picasso
+    implementation rootProject.ext.implementDependencies.glide
+    implementation rootProject.ext.implementDependencies.coroutines
+    implementation rootProject.ext.implementDependencies.koinAndroid
+    implementation rootProject.ext.implementDependencies.koinAndroidScope
+    implementation rootProject.ext.implementDependencies.koinAndroidViewModel
+    implementation rootProject.ext.implementDependencies.viewPager
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    annotationProcessor rootProject.ext.implementDependencies.glideCompiler
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}

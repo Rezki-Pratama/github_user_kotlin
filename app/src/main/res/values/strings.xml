@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Github User</string>
+    <string name="api_error_message">An Error Occurred!, Try Again Pls</string>
+    <string name="search_query_hint"> Cari User Github!</string>
+    <string name="card_image">card image</string>
+    <string name="user_name">User name</string>
+    <string name="user_description">user type </string>
+    <string name="detail_image">Detail image</string>
+    <string name="detailname">Detailname</string>
+    <string name="detail_type">Detail type</string>
+    <string name="icon_follower">Icon follower</string>
+    <string name="v_follower">0</string>
+    <string name="follower">Follower</string>
+    <string name="icon_following">Icon following</string>
+    <string name="v_following">0</string>
+    <string name="following">Following</string>
+    <string name="name">Name</string>
+    <string name="detail_name">Detail Name</string>
+    <string name="location">Location</string>
+    <string name="blog">Blog</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tidak_ada">Tidak ada</string>
+
+    <string name="tab_text_1">Home</string>
+    <string name="tab_text_2">Profile</string>
+    <string name="tab_text_3">Setting</string>
+    <string name="content_tab_home">Welcome Home</string>
+    <string name="content_tab_profile">Change your Profile here</string>
+    <string name="content_tab_text">This is Tab %1$d</string>
+    <string name="empty_follower">Empty Follower</string>
+    <string name="empty_following">Empty Following</string>
+</resources>
