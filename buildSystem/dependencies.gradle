@@ -35,6 +35,7 @@ ext {
     view_pager = "1.0.0"
     room = "2.3.0"
     legacy = "1.0.0"
+    preference = "1.1.1"
 
     implementDependencies = [
             viewPager : "androidx.viewpager2:viewpager2:$view_pager",
@@ -57,7 +58,8 @@ ext {
             glideCompiler : "com.github.bumptech.glide:compiler:$glide_compiler",
             room : "androidx.room:room-runtime:$room",
             roomCompiler : "androidx.room:room-compiler:$room",
-            legacySupport : "androidx.legacy:legacy-support-v4:$legacy"
+            legacySupport : "androidx.legacy:legacy-support-v4:$legacy",
+            preference : "androidx.preference:preference-ktx:$preference"
     ]
 }
 

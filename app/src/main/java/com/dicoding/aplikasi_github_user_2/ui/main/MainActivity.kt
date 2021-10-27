@@ -15,9 +15,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.aplikasi_github_user_2.R
+import com.dicoding.aplikasi_github_user_2.data.local.MyPreferences
 import com.dicoding.aplikasi_github_user_2.data.model.GitUser
-import com.dicoding.aplikasi_github_user_2.data.model.GithubUserEntity
-import com.dicoding.aplikasi_github_user_2.data.model.ThemeModeEntity
 import com.dicoding.aplikasi_github_user_2.ui.bindingBase.BindingBaseActivity
 import com.dicoding.aplikasi_github_user_2.ui.favorites.FavoritesActivity
 import com.dicoding.aplikasi_github_user_2.utils.Constants
@@ -35,6 +34,7 @@ class MainActivity : BindingBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        checkTheme()
         init()
     }
 
@@ -58,24 +58,31 @@ class MainActivity : BindingBaseActivity() {
         }
     }
 
+    private fun checkTheme() {
+        when (MyPreferences(this).darkMode) {
+            0 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                delegate.applyDayNight()
+            }
+            1 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                delegate.applyDayNight()
+            }
+            2 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                delegate.applyDayNight()
+            }
+        }
+    }
+
     private fun chooseThemeDialog() {
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.choose_theme_text))
         val styles = arrayOf("Light","Dark","System default")
-        var checkedItem = 0
+        var checkedItem = MyPreferences(this).darkMode
 
-        viewModel.getIsMode(1).observe(this, { mode ->
-            if (mode != null) {
-                checkedItem = mode
-            } else {
-                val mode = ThemeModeEntity(
-                    id=1,
-                    mode=0
-                )
-                viewModel.insert(mode)
-            }
-        })
+
 
         builder.setSingleChoiceItems(styles, checkedItem) { dialog, which ->
 
@@ -83,31 +90,19 @@ class MainActivity : BindingBaseActivity() {
                 0 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     delegate.applyDayNight()
-                    val mode = ThemeModeEntity(
-                        id=1,
-                        mode=0
-                    )
-                    viewModel.update(mode)
+                    MyPreferences(this).darkMode = 0
                     dialog.dismiss()
                 }
                 1 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     delegate.applyDayNight()
-                    val mode = ThemeModeEntity(
-                        id=1,
-                        mode=1
-                    )
-                    viewModel.update(mode)
+                    MyPreferences(this).darkMode = 1
                     dialog.dismiss()
                 }
                 2 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     delegate.applyDayNight()
-                    val mode = ThemeModeEntity(
-                        id=1,
-                        mode=2
-                    )
-                    viewModel.update(mode)
+                    MyPreferences(this).darkMode = 2
                     dialog.dismiss()
                 }
 

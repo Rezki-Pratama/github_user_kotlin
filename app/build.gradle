@@ -70,6 +70,7 @@ dependencies {
     implementation rootProject.ext.implementDependencies.koinAndroidViewModel
     implementation rootProject.ext.implementDependencies.viewPager
     implementation rootProject.ext.implementDependencies.room
+    implementation rootProject.ext.implementDependencies.preference
     kapt rootProject.ext.implementDependencies.roomCompiler
     implementation rootProject.ext.implementDependencies.legacySupport
     annotationProcessor rootProject.ext.implementDependencies.glideCompiler
