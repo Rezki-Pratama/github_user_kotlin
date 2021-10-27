@@ -33,6 +33,8 @@ ext {
     coroutines_version = '1.3.5'
     koin_version = "2.2.3"
     view_pager = "1.0.0"
+    room = "2.3.0"
+    legacy = "1.0.0"
 
     implementDependencies = [
             viewPager : "androidx.viewpager2:viewpager2:$view_pager",
@@ -52,7 +54,10 @@ ext {
             koinAndroid : "io.insert-koin:koin-android:$koin_version",
             koinAndroidScope : "io.insert-koin:koin-android-scope:$koin_version",
             koinAndroidViewModel : "io.insert-koin:koin-android-viewmodel:$koin_version",
-            glideCompiler : "com.github.bumptech.glide:compiler:$glide_compiler"
+            glideCompiler : "com.github.bumptech.glide:compiler:$glide_compiler",
+            room : "androidx.room:room-runtime:$room",
+            roomCompiler : "androidx.room:room-compiler:$room",
+            legacySupport : "androidx.legacy:legacy-support-v4:$legacy"
     ]
 }
 

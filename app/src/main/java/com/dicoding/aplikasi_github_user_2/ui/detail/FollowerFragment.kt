@@ -2,6 +2,7 @@ package com.dicoding.aplikasi_github_user_2.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,7 +19,19 @@ import com.dicoding.aplikasi_github_user_2.ui.bindingBase.BindingBaseActivity
 import com.dicoding.aplikasi_github_user_2.ui.main.MainAdapter
 import com.dicoding.aplikasi_github_user_2.utils.Constants
 import com.dicoding.aplikasi_github_user_2.utils.Utils
+import com.google.android.material.snackbar.Snackbar
+import okhttp3.internal.wait
 import org.koin.android.viewmodel.ext.android.viewModel
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import android.view.Gravity
+
+import android.widget.FrameLayout
+
+
+
+
+
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +50,7 @@ class FollowerFragment : Fragment() {
     private val viewModel: SectionPageViewModel by viewModel()
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter : FollowerAdapter
+    private lateinit var followerSnackbar : Snackbar
     private lateinit var emptyFollower : TextView
     private var followerList:MutableList<GitUser> ?=null
 
@@ -55,6 +69,13 @@ class FollowerFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_follower, container, false)
         recyclerView = rootView.findViewById(R.id.rvFollower)
+
+        followerSnackbar = Snackbar.make(rootView, "Loading", Snackbar.LENGTH_LONG)
+        val view: View = followerSnackbar.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+
         emptyFollower = rootView.findViewById(R.id.txtEmptyFollower)
         recyclerView.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL, false)
         recyclerViewAdapter = FollowerAdapter(rootView.context,followerList, object : FollowerAdapter.OnItemClickListener {
@@ -69,6 +90,13 @@ class FollowerFragment : Fragment() {
         return rootView
     }
 
+    override fun onResume() {
+        val name = arguments?.getString(EXTRA_NAME)
+        println(name)
+        getFollower(name.toString())
+        super.onResume()
+    }
+
     private fun getFollower(name:String) {
         val appContext = requireContext().applicationContext
         println(name)
@@ -78,6 +106,9 @@ class FollowerFragment : Fragment() {
                 Log.e("LOG LIST GITHUB USER", apiResult.toString())
                 when (apiResult.status) {
                     Constants.API_STATUS.SUCCESS -> {
+                        Handler().postDelayed({
+                            followerSnackbar.dismiss()
+                        }, 300)
                         recyclerView.visibility = View.VISIBLE
                         apiResult.data?.let { resultData ->
                             if (resultData.isEmpty()) {
@@ -87,11 +118,16 @@ class FollowerFragment : Fragment() {
                             retrieveList(resultData as MutableList<GitUser>) }
                     }
                     Constants.API_STATUS.ERROR -> {
+                        Handler().postDelayed({
+                            followerSnackbar.dismiss()
+                        }, 300)
+
                         emptyFollower.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
                         Toast.makeText(appContext, it.message, Toast.LENGTH_LONG).show()
                     }
                     Constants.API_STATUS.LOADING -> {
+                        followerSnackbar.show()
                         emptyFollower.visibility = View.GONE
                         recyclerView.visibility = View.GONE
                     }

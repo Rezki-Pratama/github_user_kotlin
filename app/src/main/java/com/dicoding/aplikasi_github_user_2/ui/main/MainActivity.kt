@@ -1,17 +1,25 @@
 package com.dicoding.aplikasi_github_user_2.ui.main
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.aplikasi_github_user_2.R
 import com.dicoding.aplikasi_github_user_2.data.model.GitUser
+import com.dicoding.aplikasi_github_user_2.data.model.GithubUserEntity
+import com.dicoding.aplikasi_github_user_2.data.model.ThemeModeEntity
 import com.dicoding.aplikasi_github_user_2.ui.bindingBase.BindingBaseActivity
+import com.dicoding.aplikasi_github_user_2.ui.favorites.FavoritesActivity
 import com.dicoding.aplikasi_github_user_2.utils.Constants
 import com.dicoding.aplikasi_github_user_2.utils.Utils
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -28,6 +36,87 @@ class MainActivity : BindingBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_item, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_favorite -> {
+                val moveIntent = Intent(this@MainActivity, FavoritesActivity::class.java)
+                startActivity(moveIntent)
+                false
+            }
+            R.id.action_setting -> {
+                chooseThemeDialog()
+                false
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun chooseThemeDialog() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.choose_theme_text))
+        val styles = arrayOf("Light","Dark","System default")
+        var checkedItem = 0
+
+        viewModel.getIsMode(1).observe(this, { mode ->
+            if (mode != null) {
+                checkedItem = mode
+            } else {
+                val mode = ThemeModeEntity(
+                    id=1,
+                    mode=0
+                )
+                viewModel.insert(mode)
+            }
+        })
+
+        builder.setSingleChoiceItems(styles, checkedItem) { dialog, which ->
+
+            when (which) {
+                0 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    delegate.applyDayNight()
+                    val mode = ThemeModeEntity(
+                        id=1,
+                        mode=0
+                    )
+                    viewModel.update(mode)
+                    dialog.dismiss()
+                }
+                1 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    delegate.applyDayNight()
+                    val mode = ThemeModeEntity(
+                        id=1,
+                        mode=1
+                    )
+                    viewModel.update(mode)
+                    dialog.dismiss()
+                }
+                2 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    delegate.applyDayNight()
+                    val mode = ThemeModeEntity(
+                        id=1,
+                        mode=2
+                    )
+                    viewModel.update(mode)
+                    dialog.dismiss()
+                }
+
+            }
+
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     @SuppressLint("WrongConstant")

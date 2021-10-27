@@ -31,8 +31,14 @@ class FollowerAdapter(var context: Context, private var githubResultList: Mutabl
         holder.onClick(githubResultList!![position],listener)
 
         holder.itemView.setOnClickListener {
+
             val moveWithDataIntent = Intent(holder.itemView.context, DetailActivity::class.java)
-            moveWithDataIntent.putExtra(DetailActivity.EXTRA_NAME, githubResultList?.get(position)?.login)
+            moveWithDataIntent.putExtra(
+                DetailActivity.EXTRA_ID, githubResultList?.get(position)!!.id
+            )
+            moveWithDataIntent.putExtra(
+                DetailActivity.EXTRA_NAME, githubResultList?.get(position)!!.login
+            )
             holder.itemView.context.startActivity(moveWithDataIntent)
         }
     }

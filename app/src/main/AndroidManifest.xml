@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Aplikasi_github_user_2">
         <activity
+            android:name=".ui.DetailFavoritesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.favorites.FavoritesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.detail.DetailActivity"
             android:exported="true" />
         <activity

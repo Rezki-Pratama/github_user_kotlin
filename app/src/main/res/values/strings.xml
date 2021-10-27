@@ -15,18 +15,18 @@
     <string name="v_following">0</string>
     <string name="following">Following</string>
     <string name="name">Name</string>
-    <string name="detail_name">Detail Name</string>
-    <string name="location">Location</string>
+    <string name="detail_username">Detail Username</string>
     <string name="blog">Blog</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tidak_ada">Tidak ada</string>
-
-    <string name="tab_text_1">Home</string>
-    <string name="tab_text_2">Profile</string>
-    <string name="tab_text_3">Setting</string>
-    <string name="content_tab_home">Welcome Home</string>
-    <string name="content_tab_profile">Change your Profile here</string>
+    <string name="choose_theme_text">Tidak ada</string>
+    <string name="tab_text_1">Followers</string>
+    <string name="tab_text_2">Following</string>
     <string name="content_tab_text">This is Tab %1$d</string>
     <string name="empty_follower">Empty Follower</string>
     <string name="empty_following">Empty Following</string>
+    <string name="location">Detail Location</string>
+    <string name="detail_name">Detail Name</string>
+    <string name="favorites">Favorites</string>
+    <string name="setting">Setting</string>
 </resources>

@@ -2,18 +2,26 @@ package com.dicoding.aplikasi_github_user_2.ui.detail
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dicoding.aplikasi_github_user_2.R
+import com.dicoding.aplikasi_github_user_2.data.model.GitDetailUser
 import com.dicoding.aplikasi_github_user_2.data.model.GitUser
+import com.dicoding.aplikasi_github_user_2.data.model.GithubUserEntity
 import com.dicoding.aplikasi_github_user_2.databinding.ActivityDetailBinding
 import com.dicoding.aplikasi_github_user_2.ui.bindingBase.BindingBaseActivity
+import com.dicoding.aplikasi_github_user_2.ui.favorites.FavoritesViewModel
 import com.dicoding.aplikasi_github_user_2.ui.main.MainAdapter
 import com.dicoding.aplikasi_github_user_2.utils.Constants
 import com.dicoding.aplikasi_github_user_2.utils.Utils
@@ -24,15 +32,27 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class DetailActivity : BindingBaseActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val viewModel: DetailViewModel by viewModel()
+    private val favoriteViewModel: FavoritesViewModel by viewModel()
     private lateinit var detailPage : LinearLayout
+    private lateinit var detailUser : GitDetailUser
+    private var isFavorite : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportActionBar?.title = "Detail User"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true);
+
+
+
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         detailPage = findViewById(R.id.detail_page)
-        intent.getStringExtra(EXTRA_NAME)?.let { getDetailUser(it) }
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this)
+        val name = intent.getStringExtra(EXTRA_NAME)
+
+        name?.let { getDetailUser(it) }
+
+        val sectionsPagerAdapter = name?.let { SectionsPagerAdapter(this, it) }
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
@@ -41,18 +61,68 @@ class DetailActivity : BindingBaseActivity() {
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
         supportActionBar?.elevation = 0f
+    }
 
-            val fragFollower = FollowerFragment()
-            val fragFollowing = FollowingFragment()
-            val args = Bundle()
-            val args2 = Bundle()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.favorites_item, menu)
+        val id = intent.getIntExtra(EXTRA_ID, 0)
+        id?.let {
+            if (menu != null) {
+                getIsFavorite(it,menu)
+            }
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
 
-            args.putString(FollowerFragment.EXTRA_NAME, "")
-            fragFollower.arguments = args
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 
-            args2.putString(FollowingFragment.EXTRA_NAME, "")
-            fragFollowing.arguments = args2
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_favorite -> {
+                    val user = GithubUserEntity(
+                        id = detailUser.id!!,
+                        login = detailUser.login,
+                        name = detailUser.name,
+                        followers = detailUser.followers,
+                        following = detailUser.following,
+                        blog = detailUser.blog,
+                        type = detailUser.type,
+                        avatarUrl = detailUser.avatarUrl,
+                        company = detailUser.company,
+                        location = detailUser.location,
+                        public_gists = detailUser.public_gists,
+                        public_repos = detailUser.public_repos
+                    )
+                        if (isFavorite != 0) {
+                            favoriteViewModel.delete(user)
+                        } else {
+                            favoriteViewModel.insert(user)
+                        }
 
+                false
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    private fun getIsFavorite(id: Int, menu: Menu) {
+        favoriteViewModel.getIsFavorite(id).observe(this, { isFavorites ->
+            isFavorite = isFavorites
+            if (isFavorites != 0) {
+                menu.findItem(R.id.action_favorite)
+                    .setIcon(R.drawable.ic_baseline_favorite_24)
+            } else {
+                menu.findItem(R.id.action_favorite)
+                    .setIcon(R.drawable.ic_baseline_favorite_border_24)
+            }
+        })
     }
 
     private fun getDetailUser(name: String) {
@@ -67,7 +137,11 @@ class DetailActivity : BindingBaseActivity() {
                         detailPage.visibility = View.VISIBLE
                         hideLoading()
                         apiResult.data?.let { resultData ->
+                            detailUser = resultData
                             binding.tvUserName.text = resultData.login
+                            binding.tvName.text = resultData.name
+                            binding.tvLocation.text = resultData.location ?: "Location Empty"
+                            binding.tvCompany.text = resultData.company ?: "Company Empty"
                             binding.tvType.text = resultData.type
                             binding.tvFollower.text = resultData.followers
                             binding.tvFollowing.text = resultData.following
@@ -93,6 +167,7 @@ class DetailActivity : BindingBaseActivity() {
 
     companion object {
         const val EXTRA_NAME = "extra_name"
+        const val EXTRA_ID = "extra_od"
 
         @StringRes
         private val TAB_TITLES = intArrayOf(

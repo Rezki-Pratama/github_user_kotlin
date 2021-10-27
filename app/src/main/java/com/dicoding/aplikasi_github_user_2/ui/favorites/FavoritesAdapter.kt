@@ -1,4 +1,4 @@
-package com.dicoding.aplikasi_github_user_2.ui.main
+package com.dicoding.aplikasi_github_user_2.ui.favorites
 
 import android.content.Context
 import android.content.Intent
@@ -8,28 +8,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.aplikasi_github_user_2.R
 import com.dicoding.aplikasi_github_user_2.data.model.GitUser
+import com.dicoding.aplikasi_github_user_2.data.model.GithubUserEntity
 import com.dicoding.aplikasi_github_user_2.ui.detail.DetailActivity
 
-class MainAdapter(var context: Context, private var githubResultList: MutableList<GitUser>?, private val listener: OnItemClickListener): RecyclerView.Adapter<MainViewHolder>() {
+class FavoritesAdapter(var context: Context, private var githubResultList: MutableList<GithubUserEntity>?, private val listener: OnItemClickListener): RecyclerView.Adapter<FavoritesViewHolder>() {
 
-    fun setList(list: MutableList<GitUser>) {
-        githubResultList=list
+    fun setList(list: MutableList<GithubUserEntity>) {
+        githubResultList = list
     }
 
     interface OnItemClickListener {
-        fun onClick(item: GitUser)
+        fun onClick(item: GithubUserEntity)
     }
 
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
         holder.txtName.text = githubResultList?.get(position)?.login
         holder.txtType.text = githubResultList?.get(position)?.type
         Glide.with(holder.itemView.context)
-                .load(githubResultList?.get(position)?.avatarUrl)
-                .circleCrop()
-                .into(holder.avatar)
+            .load(githubResultList?.get(position)?.avatarUrl)
+            .circleCrop()
+            .into(holder.avatar)
 
-        holder.onClick(githubResultList!![position],listener)
+        holder.onClick(githubResultList!![position], listener)
 
         holder.itemView.setOnClickListener {
             val moveWithDataIntent = Intent(holder.itemView.context, DetailActivity::class.java)
@@ -43,17 +44,16 @@ class MainAdapter(var context: Context, private var githubResultList: MutableLis
         }
     }
 
-    override fun onCreateViewHolder(parentView: ViewGroup, position: Int): MainViewHolder {
-        val view = LayoutInflater.from(parentView.context).inflate(R.layout.card_github_user, parentView, false)
-        return MainViewHolder(view)
+    override fun onCreateViewHolder(parentView: ViewGroup, position: Int): FavoritesViewHolder {
+        val view = LayoutInflater.from(parentView.context)
+            .inflate(R.layout.card_github_user, parentView, false)
+        return FavoritesViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        if(!githubResultList.isNullOrEmpty()) {
+        if (!githubResultList.isNullOrEmpty()) {
             return githubResultList!!.size
         }
         return 0
     }
-
-
 }

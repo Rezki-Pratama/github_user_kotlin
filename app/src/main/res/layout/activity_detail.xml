@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="190dp"
         android:background="@color/colorBlack"
         android:padding="20dp">
 
@@ -22,29 +22,68 @@
             android:contentDescription="@string/detail_image"
             android:src="@drawable/ic_baseline_person" />
 
-        <TextView
-            android:id="@+id/tvUserName"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/profile_image"
-            android:includeFontPadding="false"
-            android:text="@string/detail_name"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp" />
+            android:layout_toEndOf="@+id/profile_image">
 
-        <TextView
-            android:id="@+id/tvType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvUserName"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/profile_image"
-            android:includeFontPadding="false"
-            android:text="@string/detail_type"
-            android:textColor="@color/colorWhite"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:text="@string/detail_username"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvUserName"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:text="@string/detail_name"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvName"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:text="@string/detail_type"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvType"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:text="@string/location"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvLocation"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:text="Detail Company"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
 
 
 
@@ -56,7 +95,7 @@
         android:padding="5dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -73,11 +112,11 @@
                     android:id="@+id/tvFollower"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
                     android:includeFontPadding="false"
                     android:text="@string/v_follower"
                     android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/txtFollower"
@@ -88,14 +127,14 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:text="@string/follower"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -111,12 +150,12 @@
                 <TextView
                     android:id="@+id/tvFollowing"
                     android:includeFontPadding="false"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="@string/v_following"
                     android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/txtFollowing"
@@ -127,7 +166,7 @@
                     android:layout_width="wrap_content"
                     android:text="@string/following"
                     android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
