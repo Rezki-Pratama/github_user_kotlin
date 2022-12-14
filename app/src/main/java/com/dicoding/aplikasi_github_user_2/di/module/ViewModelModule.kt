@@ -13,3 +13,4 @@ val viewModelModule = module {
     viewModel { DetailViewModel(get(), get())}
     viewModel { SectionPageViewModel(get()) }
 }
+
